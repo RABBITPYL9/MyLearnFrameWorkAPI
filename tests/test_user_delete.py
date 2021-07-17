@@ -5,9 +5,11 @@ from lib import assertions
 from lib.base_case import BaseCase
 from lib.assertions import Assertions
 import json
+import allure
 
-
+@allure.epic("Tests on user deletes methods")
 class TestUserDelete(BaseCase):
+    @allure.description("this test for sample delete user with id 2(this id users cant delete")
     def test_delete_user(self):
         #login test user
 
@@ -40,6 +42,7 @@ class TestUserDelete(BaseCase):
 
         Assertions.assert_json_value_by_name(response4, "username", "Vitaliy", "user delete with id 2")
 
+    @allure.description("this pozitive test for delete user")
     def test_positive_delete_user(self):
         # REGISTER user for test change email symbol
         register_data = self.prepare_register_first_user()
@@ -83,6 +86,7 @@ class TestUserDelete(BaseCase):
 
         assert response4.content.decode("utf-8") == f"User not found"
 
+    @allure.description("this test for delete second user, have auth data first user")
     def test_delete_another_user(self):
         # LOGIN first user for delete another user
         #заранее созданный юзер(удалится кстати именно он,независимо от указанного в методе делете

@@ -4,9 +4,11 @@ import requests
 from lib import assertions
 from lib.base_case import BaseCase
 from lib.assertions import Assertions
+import allure
 
-
+@allure.epic("Tests for user edits")
 class TestUserEdit(BaseCase):
+    @allure.description("this test for success create user")
     def test_edit_just_created_user(self):
         # REGISTER
         register_data = self.prepare_register_data()
@@ -61,6 +63,8 @@ class TestUserEdit(BaseCase):
 
         # EDIT HOMEWORK 1
         #- Попытаемся изменить данные пользователя, будучи неавторизованными
+
+    @allure.description("this test for edit data user not have auth")
     def test_try_edit_user_not_auth(self):
         new_name1 = "ChangedFIXIK"
 
@@ -71,7 +75,9 @@ class TestUserEdit(BaseCase):
 
         Assertions.assert_code_status(response9, 400)
         assert response9.content.decode("utf-8") == f"Auth token not supplied"
-        #- Попытаемся изменить данные пользователя, будучи авторизованными другим пользователем
+        #- Попытаемся изменить данные пользователя, будучи авторизованными другим
+
+    @allure.description("this test for edit data first user, have auth second user")
     def test_try_edit_another_user(self):
         # REGISTER with first user
         register_data = self.prepare_register_first_user()
@@ -145,6 +151,8 @@ class TestUserEdit(BaseCase):
             "Wrong name"
         )
         #- Попытаемся изменить email пользователя, будучи авторизованными тем же пользователем, на новый email без символа @
+
+    @allure.description("test for change email with not symbol @")
     def test_change_email_not_symbol_dog(self):
         # REGISTER user for test change email symbol
         register_data = self.prepare_register_first_user()
@@ -194,6 +202,8 @@ class TestUserEdit(BaseCase):
             "Wrong email"
         )
         #- Попытаемся изменить firstName пользователя, будучи авторизованными тем же пользователем, на очень короткое значение в один символ
+
+    @allure.description("test for change firstName in minlen")
     def test_change_firstname_minlen(self):
         # REGISTER user for test change first name is 1 symbol
         register_data = self.prepare_register_first_user()

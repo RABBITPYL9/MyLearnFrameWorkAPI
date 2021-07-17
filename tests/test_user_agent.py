@@ -1,7 +1,8 @@
 import requests
 import pytest
+import allure
 
-
+@allure.epic("TestUserAgents")
 class TestUserAgent:
     data = [
         (
@@ -46,6 +47,7 @@ class TestUserAgent:
         ),
     ]
 
+    @allure.description("this test success use multi useragents")
     @pytest.mark.parametrize('data', data)
     def test_user_agent_one(self, data):
         user_agent = data['user_agent']
