@@ -3,25 +3,26 @@ from lib.logger import Logger
 import requests
 from requests.models import Response
 from lib.logger import Logger
-import allure 
-from tests.environment import environment
+import allure
+from tests.environment import ENV_OBJECT
+
 
 class MyRequests():
     @staticmethod
     def post(url: str, data: dict = None, headers: dict = None, cookies: dict = None):
         with allure.step(f"POST request to {url}"):
             return MyRequests._send(url, data, headers, cookies, 'POST')
-   
+
     @staticmethod
     def get(url: str, data: dict = None, headers: dict = None, cookies: dict = None):
         with allure.step(f"GET request to {url}"):
             return MyRequests._send(url, data, headers, cookies, 'GET')
-    
+
     @staticmethod
     def put(url: str, data: dict = None, headers: dict = None, cookies: dict = None):
         with allure.step(f"PUT request to {url}"):
             return MyRequests._send(url, data, headers, cookies, 'PUT')
-    
+
     @staticmethod
     def delete(url: str, data: dict = None, headers: dict = None, cookies: dict = None):
         with allure.step(f"DELETE request to {url}"):
@@ -48,7 +49,8 @@ class MyRequests():
             response = requests.put(url, data=data, headers=headers, cookies=cookies)
         elif method == 'DELETE':
             response = requests.delete(url, data=data, headers=headers, cookies=cookies)
-        else: raise Exception(f"BAD HTTP METHOD '{method}'")
+        else:
+            raise Exception(f"BAD HTTP METHOD '{method}'")
 
         Logger.add_response(response)
 

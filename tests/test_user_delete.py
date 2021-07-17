@@ -25,20 +25,20 @@ class TestUserDelete(BaseCase):
 
         #try delete user with id 2
 
-        response3 = MyRequests.delete("/api/user/2",
+        response3 = MyRequests.delete("/user/2",
             headers = {"x-csrf-token": token},
             cookies = {"auth_sid": auth_sid}
             )
-        print(response3.content)
-        print(response3.headers)
+
         #проверяем что пользователя с ид 2 не удалили
-        assert response3.content.decode("utf-8") == f"This is 404 error!\n<a href='/'>Home</a>"
+        assert response3.content.decode("utf-8") == f"Please, do not delete test users with ID 1, 2, 3, 4 or 5."
 
         #второй запрос для запроса юзера по ид
 
-        response4 = requests.get("https://playground.learnqa.ru/api/user/2")
+        #response4 = requests.get("https://playground.learnqa.ru/api/user/2")
+        response4 = MyRequests.get("/user/2")
 
-        user_test_delete = Assertions.assert_json_value_by_name(response4, "username", "Vitaliy", "user delete with id 2")
+        Assertions.assert_json_value_by_name(response4, "username", "Vitaliy", "user delete with id 2")
 
     def test_positive_delete_user(self):
         # REGISTER user for test change email symbol
@@ -74,7 +74,7 @@ class TestUserDelete(BaseCase):
         #                               cookies={"auth_sid": auth_sid}
         #                               )
 
-        response3 = MyRequests.delete(f"/api/user/{get_user_id}", data=login_data,
+        response3 = MyRequests.delete(f"/user/{get_user_id}", data=login_data,
                                       headers={"x-csrf-token": token},
                                       cookies={"auth_sid": auth_sid}
                                       )
@@ -89,6 +89,3 @@ class TestUserDelete(BaseCase):
 
         user_test_delete = Assertions.assert_json_value_by_name(response4, "username", "firstus",
                                                                 f"user delete with id {get_user_id}")
-
-
-
