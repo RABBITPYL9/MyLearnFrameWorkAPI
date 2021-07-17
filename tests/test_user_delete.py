@@ -82,3 +82,27 @@ class TestUserDelete(BaseCase):
 
 
         assert response4.content.decode("utf-8") == f"User not found"
+
+    def test_delete_another_user(self):
+        # LOGIN first user for delete another user
+        #заранее созданный юзер(удалится кстати именно он,независимо от указанного в методе делете
+        login_data = {
+            'email': 'ELITNIY31777@yspeshniy.com',
+            'password': '1234'
+        }
+
+        response2 = MyRequests.post("/user/login", data=login_data)
+        auth_sid = self.get_cookie(response2, "auth_sid")
+        token = self.get_header(response2, "x-csrf-token")
+        get_user_id = self.get_answer(response2, "user_id")
+        #4087 id другого юзера
+        #удаляем юзера с ид 4087
+        response3 = MyRequests.delete(f"/user/4087", data=login_data,
+                                      headers={"x-csrf-token": token},
+                                      cookies={"auth_sid": auth_sid}
+                                      )
+
+        response4 = MyRequests.get(f"/user/4087")
+        #проверяем чтобы в запросе к юзеру с ид 4087 не было ответа "юзер не найден" значит не удалился другой
+        assert response3.content.decode("utf-8") != f"User not found"
+

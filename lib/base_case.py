@@ -30,10 +30,11 @@ class BaseCase:
 
     def prepare_register_data(self, email=None):
         if email is None:
-            base_part = "ELITNIY"
-            domain = "example.com"
-            random_part = datetime.now().strftime("%m%d%Y%H%M%S")
+            base_part = "ELITNIY31777"
+            domain = "yspeshniy.com"
+            #random_part = datetime.now().strftime("%m%d%Y%H%M%S")
             email = f"{base_part}{random_part}@{domain}"
+            #email = f"{base_part}@{domain}"
         return {
             'password': '1234',
             'username': 'ELita',
