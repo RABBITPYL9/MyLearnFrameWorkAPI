@@ -23,6 +23,10 @@ class BaseCase:
         assert cookie_name in response.cookies, f"cannot find cookie"
         return response.cookies[cookie_name]
 
+    def get_content(self, response: Response, content_name):
+        assert content_name in response.content, f"cannot find coontent"
+        return response.content[content_name]
+
 
     def prepare_register_data(self, email=None):
         if email is None:

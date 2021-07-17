@@ -62,9 +62,6 @@ class TestUserDelete(BaseCase):
         response2 = MyRequests.post("/user/login", data=login_data)
         auth_sid = self.get_cookie(response2, "auth_sid")
         token = self.get_header(response2, "x-csrf-token")
-        print(response2.headers)
-        print(response2.cookies)
-        print(response2.content)
         get_user_id = self.get_answer(response2, "user_id")
 
 
@@ -78,14 +75,10 @@ class TestUserDelete(BaseCase):
                                       headers={"x-csrf-token": token},
                                       cookies={"auth_sid": auth_sid}
                                       )
-        print(response3.content)
-        print(response3.headers)
-        # проверяем что пользователя с ид 2 не удалили
-        #assert response3.content.decode("utf-8") == f"This is 404 error!\n<a href='/'>Home</a>"
 
-        # второй запрос для запроса юзера по ид
 
-        response4 = requests.get(f"https://playground.learnqa.ru/api/user/{get_user_id}")
+        response4 = MyRequests.get(f"/user/{get_user_id}")
 
-        user_test_delete = Assertions.assert_json_value_by_name(response4, "username", "firstus",
-                                                                f"user delete with id {get_user_id}")
+
+
+        assert response4.content.decode("utf-8") == f"User not found"
