@@ -74,7 +74,7 @@ class TestUserDelete(BaseCase):
         #                               cookies={"auth_sid": auth_sid}
         #                               )
 
-        response3 = MyRequests.delete(f"/api/user/3992", data=login_data,
+        response3 = MyRequests.delete(f"/api/user/{get_user_id}", data=login_data,
                                       headers={"x-csrf-token": token},
                                       cookies={"auth_sid": auth_sid}
                                       )
